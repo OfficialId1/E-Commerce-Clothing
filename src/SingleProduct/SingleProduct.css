@@ -1,0 +1,14 @@
+.single-product{ display: flex;flex-direction: column;justify-content: space-around;
+                align-items: center;height: calc(100vh - 45px);padding: 0 40px;
+                background-color: rgb(250, 241, 228); }
+
+.single-product .head{ width: 40%;text-align: center;text-shadow:0px 1px 1px grey }
+
+.single-product .main{ width: 60%; display: flex;justify-content: space-around;
+    width: 100%;font-size: large;font-family: Georgia, 'Times New Roman', Times, serif; }
+
+.single-product .main > div:nth-child(1){ width: 35%; }
+.single-product .main > div:nth-child(1) img{ width: 60%; }
+.single-product .main > div:nth-child(2){ width: 65%;padding: 0px 50px;line-height: 2; }
+.single-product .main > div:nth-child(2) .brand{ color: grey; }
+.single-product .main > div:nth-child(2) .price{ color: orange; }

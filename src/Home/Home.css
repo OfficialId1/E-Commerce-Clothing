@@ -1,0 +1,25 @@
+.home{background-color: #ddd; border: 2px solid #ddd;
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+
+.home .category-box{display: flex; flex-wrap: wrap;justify-content: space-around;
+        padding: 5px; background-color: white;margin:20px 10px 30px;border-radius: 10px;}
+
+.home .category-box>*{width: 21%;margin: 5px;display: flex;flex-direction: column;
+                      justify-content: center;padding: 5px;position: relative;}
+
+.home .category-box .card:hover{box-shadow: 0 0 20px #ccc;cursor: pointer;
+                                border-radius: 5px;}
+.home .category-box .card:hover button{height: 35px!important;color: white!important;
+                                       transition: all .4s ease-in-out;}
+.home .category-box .card button:hover{background-color: rgb(15, 201, 15);}
+
+.home .category-box .card .image-box{position:relative;margin:-5px -5px 0px;height: 310px;}
+.home .category-box .card .image-box img{ width: 100%;border-radius: 5px;height: 100%;}
+.home .category-box .card .add-to-cart{position:absolute;bottom:0;width:100%;border: none;
+                    left: 0;cursor: pointer;background-color:green;color: transparent;
+                    height: 0px;font-family:cursive;z-index: 1;}
+.home .category-box .card .brand{font-weight: bold;font-size: 16px;}
+.home .category-box .card .title{font-size: 14px;}
+.home .category-box .card .price{font-weight: bold;font-size: 13.5px;color: maroon;}
+.home .category-box .card #linkDiv{width: 100%;position: absolute;top: 0;height: 100%;
+                                   left: 0;z-index: 0;}

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import './Cart.css';
+import imageObj from '../Assets/AllProducts'; 
 
 export default function Cart({setActive}) {
     setActive('btn4');
@@ -34,7 +35,7 @@ export default function Cart({setActive}) {
         {products.map(product=>(
           <div key={product.id} className='card'>
             <div>
-              <img src={product.image} alt="" />
+              <img src={imageObj[`${product.imageSrc}`]} alt="" />
             </div>
 
             <div style={{position:'relative'}}>

@@ -4,6 +4,7 @@ import data from "../Assets/AllProducts.json";
 import './SingleProduct.css';
 import imageObj from '../Assets/AllProducts';
 import {FaStar,FaStarHalf} from 'react-icons/fa';
+import { useState,useEffect } from 'react';
 
 const {shirts} = data;
 const {pants} = data;   
@@ -13,8 +14,6 @@ export default function SingleProduct() {
     // extracting id from url by using useParams hook
     const { id } = useParams();
 
-    // let imageObj={s1,s2,s3,s4,s5,s6,s7,s8,p1,p2,p3,p4,p5,p6,p7,p8,t1,t2,t3,t4,t5,t6,t7,t8};
-
     // extracting value from url
     const queryString = useLocation().search;
     const queryParams = new URLSearchParams(queryString);
@@ -22,62 +21,74 @@ export default function SingleProduct() {
 
     const navigate = useNavigate();
 
-  // let imageObj={s1,s2,s3,s4,s5,s6,s7,s8,p1,p2,p3,p4,p5,p6,p7,p8,t1,t2,t3,t4,t5,t6,t7,t8};
+   const [cartProducts,setCartProducts]= useState([]);
+    // let [count,setCount]= useState(0);
 
-  // function to add product to cart
-  
+     // to fetch data from json server and then put data to products in array form
+    useEffect(()=>{
+       fetch("http://localhost:3000/products")
+      .then((res) => res.json())
+      .then(data=>setCartProducts(data))
+      .catch((err) => console.log(err));
+    });
 
+    // function to add product to cart
+    
     function addToCart(e) {
-    e.preventDefault();
+      e.preventDefault();
 
-    // product contains product details as an object
-    // let product={
-    //   brand:e.target.querySelector('.brand').innerText,
-    //   title:e.target.querySelector('.title').innerText,
-    //   price:Number((e.target.querySelector('.price').innerText).split(" ")[1]),
-    //   image:e.target.querySelector('.image').src,
-    //   id:Math.floor(Math.random()*1000)
-    // };
+      console.log('product id',e.target.querySelector('.product-id').id);
 
+      const productId=e.target.querySelector('.product-id').id;   
+      const cartProduct=cartProducts.find(cP=>cP.id == productId);
+
+      let product;
+
+      if(cartProduct){
+        fetch(`http://localhost:3000/products/${productId}`,{
+            method:"PATCH",
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({quantity : cartProduct.quantity+1})
+        }).then(res=>navigate("/Cart"))
+      }
+
+      else{
+        if(productId.includes('s')){
+          console.log('s shirt');
+          product=shirts.find(s=>s.id == productId);
+        }
+        else if(productId.includes('p')){
+          console.log('p pant');
+          product=pants.find(p=>p.id == productId)
+        }
+        else{
+          console.log('t t-shirt');
+          product=tShirts.find(t=>t.id == productId); 
+        }
+
+        product.quantity=1;
     
-    console.log('product id',e.target.querySelector('.product-id').id);
+        console.log('product1',product);
 
-    const productId=e.target.querySelector('.product-id').id;
-
-    let product;;
-
-    if(productId.includes('s')){
-      console.log('s shirt');
-      product=shirts.find(s=>s.id == productId); 
+        // adding product to json server in products array by posting it
+        fetch("http://localhost:3000/products", {
+          method: "POST",
+          headers: { "Content-Type": "Application/json" },
+          body: JSON.stringify(product),
+        })
+        .then((res) => navigate("/Cart"))   
+        .catch((err) => console.log(err));
+      }
     }
-    else if(productId.includes('p')){
-      console.log('p pant');
-      product=pants.find(p=>p.id == productId)
-    }
-    else{
-      console.log('t t-shirt');
-      product=tShirts.find(t=>t.id == productId); 
-    }
+      // ternary operator to check the category
+      let cloth;
 
+      { 
+        clothes=='shirts' ? 
+        cloth=shirts.find(s=>s.id==id) : 
+        (clothes=='pants' ? cloth=pants.find(s=>s.id==id) : cloth=tShirts.find(s=>s.id==id))
+      }
     
-    console.log('product1',product);
-
-    // adding product to json server in products array by posting it
-    fetch("http://localhost:3000/products", {
-      method: "POST",
-      headers: { "Content-Type": "Application/json" },
-      body: JSON.stringify(product),
-    })
-    .then((res) => navigate("/Cart"))   
-    .catch((err) => console.log(err));
-  }
-
-    let cloth;
-
-    // ternary operator to check the category
-    { clothes=='shirts' ? 
-      cloth=shirts.find(s=>s.id==id) : 
-      (clothes=='pants' ? cloth=pants.find(s=>s.id==id) : cloth=tShirts.find(s=>s.id==id))}
 
   return (
     <div className='single-product'>
@@ -96,20 +107,24 @@ export default function SingleProduct() {
                 <div className='title'>{cloth.title}</div>
                
                 <h3 className='brand'>{cloth.brand}</h3>
+
                 <div style={{color:'gold',fontSize:'14px'}}>
-                    <FaStar></FaStar><FaStar></FaStar><FaStar></FaStar><FaStarHalf></FaStarHalf>
-                    <span style={{color:'#333',position:'relative',top:'-2px'}}>({Math.floor(Math.random()*500)} reviews)</span> 
+                  <FaStar></FaStar><FaStar></FaStar><FaStar></FaStar><FaStarHalf></FaStarHalf>
                 </div><br />
+
                 <h4 className='price'>Rs {cloth.price}</h4><br />
+
                 <div style={{fontSize:'15px',color:'#333'}}>
                     Up your look with this handsome shirt. This is the perfect fall
-                      when you put it with a pair of jeans and a lightweight jacket 
-                     to enjoy the crisper weather.
+                    when you put it with a pair of jeans and a lightweight jacket 
+                    to enjoy the crisper weather.
                 </div><br />
+
                 <form onSubmit={addToCart}>
                     <button className='add-to-cart'>Add To Cart</button>
                     <div className='product-id' id={cloth.id} hidden></div>
                 </form><br />
+
                 <div className='specifications'>   
                     <h3>Product Specification</h3>
                     <div>Closure : Button</div>

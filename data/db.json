@@ -1,18 +1,3 @@
 {
-  "products": [
-    {
-      "brand": "Adidas",
-      "title": "Men's Solid Royal Slim Fit Black Shirt",
-      "price": 2200,
-      "imageSrc": "s6",
-      "id": "s6"
-    },
-    {
-      "brand": "Nike",
-      "title": "Men's Solid Dotted Slim Fit White Half Sleeve Shirt",
-      "price": 2800,
-      "imageSrc": "s7",
-      "id": "s7"
-    }
-  ]
+  "products": []
 }
